@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Test - Bella Vista</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0A0A0A;
+            color: white;
+            padding: 20px;
+        }
+        .video-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        video {
+            width: 100%;
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #FF6B35;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <h1>Bella Vista Video Test</h1>
+        
+        <div class="status" id="status">
+            Testing video URL...
+        </div>
+        
+        <video id="test-video" controls preload="metadata">
+            <source src="https://res.cloudinary.com/dlwya5w5h/video/upload/v1755098014/Video-Display_Intialian_egq6cy.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <div class="status">
+            <strong>Video URL:</strong><br>
+            https://res.cloudinary.com/dlwya5w5h/video/upload/v1755098014/Video-Display_Intialian_egq6cy.mp4
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('test-video');
+        const status = document.getElementById('status');
+        
+        video.addEventListener('loadstart', () => {
+            status.textContent = 'Loading video...';
+            status.style.background = '#FF6B35';
+        });
+        
+        video.addEventListener('canplay', () => {
+            status.textContent = '✅ Video loaded successfully!';
+            status.style.background = '#00D4FF';
+        });
+        
+        video.addEventListener('error', (e) => {
+            status.textContent = '❌ Error loading video: ' + e.message;
+            status.style.background = '#FF0000';
+            console.error('Video error:', e);
+        });
+        
+        // Test if video URL is accessible
+        fetch('https://res.cloudinary.com/dlwya5w5h/video/upload/v1755098014/Video-Display_Intialian_egq6cy.mp4', {
+            method: 'HEAD'
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('✅ Video URL is accessible');
+            } else {
+                console.log('❌ Video URL returned status:', response.status);
+            }
+        })
+        .catch(error => {
+            console.log('❌ Error accessing video URL:', error);
+        });
+    </script>
+</body>
+</html>
+
+
+
