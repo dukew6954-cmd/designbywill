@@ -600,10 +600,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Mobile menu toggle
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    
     if (mobileMenuBtn && mobileMenu) {
         mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
-            mobileMenuBtn.classList.toggle('open');
+            mobileMenu.classList.add('active');
+            document.body.classList.add('menu-open');
             
             // Animate button
             mobileMenuBtn.classList.add('animate-bounce');
@@ -611,16 +613,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 mobileMenuBtn.classList.remove('animate-bounce');
             }, 1000);
         });
-
-        // Close mobile menu when clicking on links
-        const mobileLinks = mobileMenu.querySelectorAll('a');
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                mobileMenuBtn.classList.remove('open');
-            });
+    }
+    
+    if (mobileMenuClose && mobileMenu) {
+        mobileMenuClose.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
         });
     }
+
+    // Close mobile menu when clicking on nav links
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+    });
+    
+    // Close mobile menu when clicking outside
+    mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu) {
+            mobileMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+    });
 
     // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('a[href^="#"]');
